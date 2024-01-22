@@ -1,17 +1,14 @@
 "use client";
-import { useState, useContext } from "react";
+import { useState } from "react";
 import IconAccessibility from "./IconAccessibility";
-import { ThemeContext } from '../layouts/MainLayout';
 
 export default function AccessMenu() {
   const [fontType, setFontType] = useState("font-sans"); // ["font-sans", "font-serif", "font-mono"
-  const [fontSize, setFontSize] = useState(16);
-  const [lineSize, setLineSize] = useState(1.15);
-  const options = useContext(ThemeContext);
+  const [fontSize, setFontSize] = useState("text-base");
+  const [lineSize, setLineSize] = useState("leading-normal");
 
   function changeTheme(theme: string) {
     document.querySelector("html")?.setAttribute("data-theme", theme);
-    console.log(theme);
   };
 
   function changeFont(font: string) {
@@ -20,6 +17,21 @@ export default function AccessMenu() {
     element?.classList.add(font);
     setFontType(font);
   };
+
+  function changeFontSize(size: string) {
+    const element = document.getElementById("main-content");
+    element?.classList.remove(fontSize);
+    element?.classList.add(size);
+    setFontSize(size);
+  };
+
+  function changeSpacing(size: string) {
+    const element = document.getElementById("main-content");
+    element?.classList.remove(lineSize);
+    element?.classList.add(size);
+    setLineSize(size);
+  };
+
 
   return (
     <div className="dropdown dropdown-end">
@@ -46,17 +58,20 @@ export default function AccessMenu() {
             </ul>
           </details>
           <span className="text-md mt-4">Size</span>
-          <div className="flex gap-2 items-center">
-            <button onClick={() => setFontSize(fontSize - 1)} className="btn btn-ghost btn-sm">-</button>
-            <span className="text-md">{fontSize}px</span>
-            <button onClick={() => setFontSize(fontSize + 1)} className="btn btn-ghost btn-sm">+</button>
-          </div>
+          <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+            <li><a onClick={() => changeFontSize("text-sm")}>sm</a></li>
+            <li><a onClick={() => changeFontSize("text-base")}>md</a></li>
+            <li><a onClick={() => changeFontSize("text-lg")}>lg</a></li>
+            <li><a onClick={() => changeFontSize("text-2xl")}>2xl</a></li>
+          </ul>
+
           <span className="text-md mt-4">Line Spacing</span>
-          <div className="flex gap-2 items-center">
-            <button onClick={() => setLineSize( prev => prev - 0.05)} className="btn btn-ghost btn-sm">-</button>
-            <span className="text-md">{lineSize.toFixed(2)}px</span>
-            <button onClick={() => setLineSize(lineSize + 0.05)} className="btn btn-ghost btn-sm">+</button>
-          </div>
+          <ul className="menu menu-vertical lg:menu-horizontal bg-base-200 rounded-box">
+            <li><a onClick={() => changeSpacing("leading-normal")}>1</a></li>
+            <li><a onClick={() => changeSpacing("leading-relaxed")}>1.5</a></li>
+            <li><a onClick={() => changeSpacing("leading-loose")}>2</a></li>
+            <li><a onClick={() => changeSpacing("leading-10")}>2.5</a></li>
+          </ul>
           <div className="card-actions">
             <button onClick={() => { }} className="btn btn-primary btn-block">Activate Speech-to-Text</button>
           </div>
