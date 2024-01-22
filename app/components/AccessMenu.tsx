@@ -4,6 +4,7 @@ import IconAccessibility from "./IconAccessibility";
 import { ThemeContext } from '../layouts/MainLayout';
 
 export default function AccessMenu() {
+  const [fontType, setFontType] = useState("font-sans"); // ["font-sans", "font-serif", "font-mono"
   const [fontSize, setFontSize] = useState(16);
   const [lineSize, setLineSize] = useState(1.15);
   const options = useContext(ThemeContext);
@@ -11,6 +12,13 @@ export default function AccessMenu() {
   function changeTheme(theme: string) {
     document.querySelector("html")?.setAttribute("data-theme", theme);
     console.log(theme);
+  };
+
+  function changeFont(font: string) {
+    const element = document.getElementById("main-content");
+    element?.classList.remove(fontType);
+    element?.classList.add(font);
+    setFontType(font);
   };
 
   return (
@@ -32,9 +40,9 @@ export default function AccessMenu() {
           <details className="dropdown">
             <summary className="m-1 btn btn-block">Choose font type</summary>
             <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
-              <li><a className="font-sans">Sans serif</a></li>
-              <li><a className="font-serif">Serif</a></li>
-              <li><a className="font-mono">Monotyped</a></li>
+              <li><a className="font-sans" onClick={() => changeFont("font-sans")}>Sans serif</a></li>
+              <li><a className="font-serif" onClick={() => changeFont("font-serif")}>Serif</a></li>
+              <li><a className="font-mono" onClick={() => changeFont("font-mono")}>Monotyped</a></li>
             </ul>
           </details>
           <span className="text-md mt-4">Size</span>
